@@ -1,0 +1,60 @@
+openapi: 3.0.1
+info:
+  title: Tasks API V2
+  version: v2
+servers:
+  - url: /
+    description: Tasks API
+tags:
+  - name: Tasks
+    description: Tasks
+paths:
+  /tasks:
+    get:
+      summary: Get all tasks
+      operationId: getAllTasks
+      responses:
+        200:
+          description: Default response
+          content:
+            application/v2+json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    uniqueItems: true
+                    minItems: 0
+                    items:
+                      $ref: '#/components/schemas/TaskResponse'
+components:
+  schemas:
+    TaskResponse:
+      description: Task
+      type: object
+      properties:
+        guid:
+          type: string
+          format: guid
+          example: 158d2065-5144-4ea7-9263-21623dc3d299
+        description:
+          type: string
+          minLength: 1
+          example: Test task
+        createdAt:
+          type: string
+          format: date-time
+          example: '2019-03-01T00:00:00Z'
+        dueDate:
+          type: string
+          format: date-time
+          example: '2019-01-15T00:00:00Z'
+        tags:
+          type: array
+          uniqueItems: true
+          minItems: 0
+          items:
+            type: string
+            example:
+              - "test"
+              - "works"
