@@ -16,14 +16,18 @@ import java.util.UUID;
 public class TasksHandler {
   Mono<ServerResponse> getAll(ServerRequest serverRequest) {
     return ServerResponse.ok()
-        .contentType(MediaType.APPLICATION_JSON)
+        .contentType(version("v1"))
         .body(Mono.just(List.of(taskResponse())).map(ItemsResponse::new), ItemsResponse.class);
   }
 
   Mono<ServerResponse> getAllWithTags(ServerRequest serverRequest) {
     return ServerResponse.ok()
-        .contentType(MediaType.APPLICATION_JSON)
+        .contentType(version("v2"))
         .body(Mono.just(List.of(taskWithTagsResponse())).map(ItemsResponse::new), ItemsResponse.class);
+  }
+
+  private MediaType version(String version) {
+    return new MediaType("application", String.format("%s+json", version));
   }
 
   private Task taskResponse() {
